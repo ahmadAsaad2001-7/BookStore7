@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="StoreWebapi.Application/StoreWebapi.Application.csproj" />
+  <Project Path="StoreWebapi.Domain/StoreWebapi.Domain.csproj" />
+  <Project Path="StoreWebapi.Infrastructure/StoreWebapi.Infrastructure.csproj" />
+  <Project Path="StoreWebapi.WebApi/StoreWebapi.WebApi.csproj" />
+</Solution>

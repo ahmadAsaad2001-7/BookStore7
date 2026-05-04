@@ -1,0 +1,41 @@
+# Build results
+bin/
+obj/
+
+# Visual Studio Code
+.vscode/
+.vs/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Rider
+.idea/
+*.sln.iml
+
+# Build folders
+**/bin/
+**/obj/
+
+# NuGet
+*.nupkg
+*.snupkg
+
+# Environment files (if they contain secrets)
+appsettings*.json
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+
+bin/
+obj/
+*.user
+appsettings.json
+# Logs
+*.log
