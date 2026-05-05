@@ -161,4 +161,19 @@ public class UserController : ControllerBase
         return result.IsSuccess ? Ok(result.Value) : NotFound(new { error = "User not found" });
     }
     
+    [HttpPost("coupons/validate")]
+    public async Task<IActionResult> ValidateCoupon([FromBody] GetCouponByCodeQuery request)
+    {
+        var query = new GetCouponByCodeQuery(request.code);
+        var result = await _mediator.Send(query);
+
+        if (result.IsSuccess && result.Value is not null)
+        {
+            return Ok(result.Value);
+        }
+    
+        return BadRequest(new { message = result.Error });
+    }
+    
+    
 }

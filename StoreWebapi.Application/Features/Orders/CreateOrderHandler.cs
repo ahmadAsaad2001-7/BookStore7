@@ -32,28 +32,33 @@ public class CreateOrderHandler(
 
       
 
-        // 🎟️ 3. Process coupon (if provided)
         decimal discount = 1.0m;
         coupons? appliedCoupon = null;
 
         if (!string.IsNullOrWhiteSpace(request.CouponCode))
         {
-         
+            // 1. جلب الكوبون بالكود فقط (بدون IsExpired في الاستعلام)
             appliedCoupon = await repo.FindFirstOrDefault<coupons>(
-                c => c.code == request.CouponCode && !c.IsExpired, 
+                c => c.code == request.CouponCode, 
                 cancellationToken);
     
+            // 2. التحقق من الوجود
             if (appliedCoupon == null)
-                return Result.Failure<CreateOrderResponse>("Invalid or expired coupon");
+                return Result.Failure<CreateOrderResponse>("الكوبون غير صالح أو غير موجود");
+
+            // 3. التحقق من الصلاحية (هنا IsExpired ستعمل بدون مشاكل)
+            if (appliedCoupon.IsExpired)
+                return Result.Failure<CreateOrderResponse>("عذراً، هذا الكوبون منتهي الصلاحية");
     
-           
+            // 4. التحقق مما إذا كان المستخدم قد استخدمه سابقاً
             var used = await repo.AnyAsync<couponUser>(
                 cu => cu.couponId == appliedCoupon.couponId && cu.userId == buyerId, 
                 cancellationToken);
     
             if (used)
-                return Result.Failure<CreateOrderResponse>("Coupon already used");
+                return Result.Failure<CreateOrderResponse>("لقد قمت باستخدام هذا الكوبون مسبقاً");
     
+            // 5. تطبيق الخصم
             discount = 1m - (appliedCoupon.Discount_percentage / 100m);
         }
 
