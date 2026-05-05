@@ -5,7 +5,7 @@ using StoreWebapi.Domain.Domain.Enums;
 namespace StoreWebapi.Domain.Domain;
 public class user : IdentityUser<Guid>
 {
-    Roles _role=Roles.USER;
+    public Roles _role=Roles.USER;
     public string imageUrl { get; set; }
     public bool isSusbended { get; set; } = false;
     public string? cellId { get; set; }
